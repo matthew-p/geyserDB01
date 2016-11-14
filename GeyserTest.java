@@ -1,6 +1,6 @@
 
 /**
- * @author (your name) 
+ * @author Matthew Pische 
  */
 public class GeyserTest
 {
@@ -19,12 +19,14 @@ public class GeyserTest
             System.out.println("Error: latest eruption wrong, should be 20:35");
         if (!e.toString().equals("Scott on 4/15/2010 at 20:35"))
             System.out.println("Error: last eruption toString should be: Scott on 4/15/2010 at 20:35\nwas: " + e.toString());
+            
         e = new Eruption("7/18/2010,Pink Cone,21:7");
         db.addEruption(e);
         if (db.getNumEruptions() != 12)
             System.out.println("Error: after insert eruptions should be 12, but are: " + db.getNumEruptions());
         if (db.getNumGeysers() != 9)
             System.out.println("Error: after insert geysers should be 9, but are: " + db.getNumGeysers());
+            
         e = db.getLateNightEruption();
         if (!e.toString().equals("Pink Cone on 7/18/2010 at 21:07"))
             System.out.println("Error: insert did not update latest eruption for 2010, should be Pink Cone, was: " + e.toString());

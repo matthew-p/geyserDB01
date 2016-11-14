@@ -9,27 +9,25 @@ import java.text.*;
  * GUI front end for a Yellowstone Geyser database 
  * 
  * @author Scott Grissom
- * @version August 1, 2016
+ * @author Matthew Pische
+ * @version November 13, 2016
  **********************************************************************/
 public class GeyserGUI extends JFrame implements ActionListener{
 
     /** results box */
     private JTextArea resultsArea;
-
+    
     private GeyserDatabase db;
-
-    // FIX ME: define labels, text fields and button
+    
     private JTextField dayField;
     private JTextField monthField;
     private JTextField yearField;
     private JTextField geyserField;
-    
 
     private JButton lateButton;
     private JButton onDateButton;
     private JButton maxButton;
     private JButton byNameButton;
-
     private JButton mostActiveButton;
     private JButton leastActiveButton;
     private JButton geyserListButton;
@@ -60,9 +58,6 @@ public class GeyserGUI extends JFrame implements ActionListener{
      *********************************************************************/
     public GeyserGUI(){
         db = new GeyserDatabase();
-        
-        // FIX ME: the following line should be removed
-        //db.readGeyserData("GeyserData.txt");
 
         // create the Gridbag layout
         setLayout(new GridBagLayout());
@@ -79,6 +74,7 @@ public class GeyserGUI extends JFrame implements ActionListener{
         add(scrollPane, position);  
 
         // Create label and textfield for Month
+        /*
         position = new GridBagConstraints();
         position.insets =  new Insets(0,20,5,0);   
         position.gridx = 0;
@@ -87,7 +83,11 @@ public class GeyserGUI extends JFrame implements ActionListener{
         position.gridheight = 1;  
         position.anchor = GridBagConstraints.LINE_START;
         add(new JLabel("Month"), position);
-
+        */
+        position = makeConstraints(0,10,1,1,GridBagConstraints.LINE_START);
+        position.insets = new Insets(0,20,5,0);
+        add(new JLabel("Month"),position);
+        /*
         position = new GridBagConstraints();
         position.gridx = 0;
         position.gridy = 11; 
@@ -96,6 +96,11 @@ public class GeyserGUI extends JFrame implements ActionListener{
         position.anchor = GridBagConstraints.LINE_START;
         position.insets =  new Insets(0,20,20,0);  
         monthField = new JTextField(2);  
+        add(monthField, position);
+        */
+        position = makeConstraints(0,11,1,1,GridBagConstraints.LINE_START);
+        position.insets = new Insets(0,20,20,0);
+        monthField = new JTextField(2);
         add(monthField, position);
         
         position = makeConstraints(1,10,1,1,GridBagConstraints.LINE_START);
@@ -174,7 +179,6 @@ public class GeyserGUI extends JFrame implements ActionListener{
         geyserListButton = new JButton("Geyser List");
         geyserListButton.addActionListener(this);
         add(geyserListButton, position);
-          
 
         // set up File menus
         setupMenus();
@@ -195,6 +199,7 @@ public class GeyserGUI extends JFrame implements ActionListener{
         }
         resultsArea.append("Total Eruptions: " + m.size());
     }
+    // override to begin with a message to user
         private void displayEruptions(String startMessage, ArrayList <Eruption> m){
         resultsArea.setText(startMessage + "\n");
         for (Eruption e : m) {
@@ -209,15 +214,6 @@ public class GeyserGUI extends JFrame implements ActionListener{
     @param e the button or menu item that was selected
      *********************************************************************/
     public void actionPerformed(ActionEvent e){
-        /*
-         *      
-            private JButton mostActiveButton;
-            private JButton leastActiveButton;
-            private JTextField dayField;
-            private JTextField monthField;
-            private JTextField yearField;
-            private JTextField geyserField;
-         */
         Eruption item = null;
         
         // either open a file or warn the user
@@ -283,6 +279,8 @@ public class GeyserGUI extends JFrame implements ActionListener{
                 JOptionPane.showMessageDialog(this, "Provide Month, Date, and Year");
             }
         }
+        // get most or least active geyser,
+        // if a tie, list all 
         if (e.getSource() == mostActiveButton) {
             resultsArea.setText("Most Active Geyser: \n");
             for (Geyser g : db.findMostActiveGeyser()) {

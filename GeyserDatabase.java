@@ -15,8 +15,8 @@ public class GeyserDatabase
         geysers = new ArrayList<Geyser>();
     }
     public void readGeyserData(String filename) {
-        //project spec called for a new ArrayList here, but unclear why 
         try {
+            // if data already in object, replace it with new file contents
             if (eruptions.size() != 0) {
                 eruptions = new ArrayList<Eruption>();
                 geysers = new ArrayList<Geyser>();
@@ -30,7 +30,6 @@ public class GeyserDatabase
                 addEruption(e);
             }
             sc.close();
-            // 
             createGeyserList();
         } catch (IOException e) {
             System.out.println("Failed to read datafile: " + filename);
@@ -38,6 +37,8 @@ public class GeyserDatabase
     }
     public void addEruption (Eruption e) {
         eruptions.add(e);
+        // reflect new eruption in geyser list  
+        // done this way because lesson focus is on ArrayLists
         boolean inList = false;
         for (Geyser g : geysers) {
             if (g.getName().equals(e.geyser())){
@@ -57,9 +58,11 @@ public class GeyserDatabase
     public ArrayList<Geyser> getGeyserList() {
         return geysers;
     }
+    // all eruptions
     public int getNumEruptions() {
         return eruptions.size();
     }
+    // override for eruptions on specific day
     public int getNumEruptions(int m, int d, int y) {
         int total = 0;
         for (Eruption e : eruptions) {
@@ -72,12 +75,13 @@ public class GeyserDatabase
         /* NOTE: 
          * the project spec is ambiguous in that the method signature it gives does not take a year, 
          * however the description of it's function could arguably be read to imply it is only checking for the 
-         * latest eruption during the most recent (?) year, or that this was meaningless, because the target data set only 
-         * contains one year's data. I chose to instead look for the first
-         * instance of the lastest eruption out of the entire set, inclusive of all years here
+         * latest eruption during the most recent (?) year, but I concluded this was probably meaningless, 
+         * because the target data set only contains one year's data. So I chose to instead look for the first
+         * instance of the lastest eruption out of the entire set, irrespective of year
          */
         Eruption lastE = eruptions.get(0);
         Iterator<Eruption> iter = eruptions.iterator();
+        // convert hours to minutes & sum, break out if last possible minute found
         while(iter.hasNext() && lastE.hr() * 60 + lastE.min() < 1439) {
             Eruption e = iter.next();
             if (lastE.hr() * 60 + lastE.min() < e.hr() * 60 + e.min())
@@ -114,6 +118,8 @@ public class GeyserDatabase
         int month = 0;
         int day = 0;
         String output = "";
+        // this could be a pretty brutal nested loop for very large data sets 
+        // as it will loop over the entire data set 372 times, but doesn't matter wrt target dataset 
         for (int m = 1; m <= 12; m++) {
             for (int d = 1; d <= 31; d++) {
                 int dayCount = getNumEruptions(m, d, y);
