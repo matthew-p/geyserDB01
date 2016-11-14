@@ -1,0 +1,25 @@
+#BlueJ class context
+comment0.params=arg
+comment0.target=void\ main(java.lang.String[])
+comment0.text=\r\n\ \ \ \ Main\ Method\r\n
+comment1.params=
+comment1.target=GeyserGUI()
+comment1.text=\r\n\ \ \ \ Constructor\ -\ instantiates\ and\ displays\ all\ of\ the\ GUI\ commponents\r\n
+comment2.params=m
+comment2.target=void\ displayEruptions(java.util.ArrayList)
+comment2.text=\r\n\ \ \ \ List\ all\ entries\ given\ an\ ArrayList\ of\ eruptions.\ \ Include\ a\ final\r\n\ \ \ \ line\ with\ the\ number\ of\ eruptions\ listed\r\n\r\n\ \ \ \ @param\ m\ list\ of\ eruptions\r\n
+comment3.params=startMessage\ m
+comment3.target=void\ displayEruptions(java.lang.String,\ java.util.ArrayList)
+comment4.params=e
+comment4.target=void\ actionPerformed(java.awt.event.ActionEvent)
+comment4.text=\r\n\ \ \ \ Respond\ to\ menu\ selections\ and\ button\ clicks\r\n\r\n\ \ \ \ @param\ e\ the\ button\ or\ menu\ item\ that\ was\ selected\r\n
+comment5.params=
+comment5.target=void\ openFile()
+comment5.text=\r\n\ \ \ \ In\ response\ to\ the\ menu\ selection\ -\ open\ a\ data\ file\r\n
+comment6.params=x\ y\ h\ w\ align
+comment6.target=java.awt.GridBagConstraints\ makeConstraints(int,\ int,\ int,\ int,\ int)
+comment6.text=\r\n\ \ \ \ Create\ a\ custom\ gridbag\ constraint\r\n
+comment7.params=
+comment7.target=void\ setupMenus()
+comment7.text=\r\n\ \ \ \ Set\ up\ the\ menu\ items\r\n
+numComments=8

@@ -32,10 +32,10 @@ public class GeyserTest
             System.out.println("Error: day w/most eruptions should be 1/1/2010, was: " + db.findDayWithMostEruptions(2010));
         if (!db.findDayWithMostEruptions(2011).equals("No eruptions in 2011"))
             System.out.println("Error: does not handle empty year properly");
-        if (!db.findMostActiveGeyser().getName().equals("Scott"))
-            System.out.println("Error: most active geyser incorrect, should be Scott, was: " + db.findMostActiveGeyser().getName());
-        if (db.findLeastActiveGeyser().getNumEruptions() != 1)
-            System.out.println("Error: least active geyser count incorrect, should be 1, was: " + db.findLeastActiveGeyser().getNumEruptions());
+        if (!db.findMostActiveGeyser().get(0).getName().equals("Scott"))
+            System.out.println("Error: most active geyser incorrect, should be Scott, was: " + db.findMostActiveGeyser().get(0).getName());
+        if (db.findLeastActiveGeyser().get(0).getNumEruptions() != 1)
+            System.out.println("Error: least active geyser count incorrect, should be 1, was: " + db.findLeastActiveGeyser().get(0).getNumEruptions());
             
         System.out.println("Tests complete");
     }

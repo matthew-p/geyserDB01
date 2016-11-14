@@ -19,8 +19,20 @@ public class GeyserGUI extends JFrame implements ActionListener{
     private GeyserDatabase db;
 
     // FIX ME: define labels, text fields and button
+    private JTextField dayField;
+    private JTextField monthField;
+    private JTextField yearField;
+    private JTextField geyserField;
     
-    private JTextField month;
+
+    private JButton lateButton;
+    private JButton onDateButton;
+    private JButton maxButton;
+    private JButton byNameButton;
+
+    private JButton mostActiveButton;
+    private JButton leastActiveButton;
+    private JButton geyserListButton;
 
     /** menu items */
     private JMenuBar menus;
@@ -50,7 +62,7 @@ public class GeyserGUI extends JFrame implements ActionListener{
         db = new GeyserDatabase();
         
         // FIX ME: the following line should be removed
-        db.readGeyserData("GeyserData.txt");
+        //db.readGeyserData("GeyserData.txt");
 
         // create the Gridbag layout
         setLayout(new GridBagLayout());
@@ -63,12 +75,12 @@ public class GeyserGUI extends JFrame implements ActionListener{
         position.gridy = 0;
         position.gridheight = 10;
         position.gridwidth = 5;   
-        position.insets =  new Insets(20,20,0,0);       
+        position.insets =  new Insets(20,20,10,0);       
         add(scrollPane, position);  
 
         // Create label and textfield for Month
         position = new GridBagConstraints();
-        position.insets =  new Insets(0,20,0,0);   
+        position.insets =  new Insets(0,20,5,0);   
         position.gridx = 0;
         position.gridy = 10;  
         position.gridwidth = 1;
@@ -82,15 +94,87 @@ public class GeyserGUI extends JFrame implements ActionListener{
         position.gridwidth = 1;
         position.gridheight = 1;
         position.anchor = GridBagConstraints.LINE_START;
-        position.insets =  new Insets(0,20,0,0);  
-        month = new JTextField(2);  
-        add(month, position);
+        position.insets =  new Insets(0,20,20,0);  
+        monthField = new JTextField(2);  
+        add(monthField, position);
         
-        // FIX ME: add labels and text fields at bottom
-   
-
-        // FIX ME: Add buttons and labels on right side
-       
+        position = makeConstraints(1,10,1,1,GridBagConstraints.LINE_START);
+        position.insets = new Insets(0,20,5,0);
+        add(new JLabel("Day"), position);
+        
+        position = makeConstraints(1,11,1,1,GridBagConstraints.LINE_START);
+        position.insets = new Insets(0,20,20,0);
+        dayField = new JTextField(2);
+        add(dayField, position);
+        
+        position = makeConstraints(2,10,1,1,GridBagConstraints.LINE_START);
+        position.insets = new Insets(0,20,5,0);
+        add(new JLabel("Year"), position);
+        
+        position = makeConstraints(2,11,1,1,GridBagConstraints.LINE_START);
+        position.insets = new Insets(0,20,20,0);
+        yearField = new JTextField(4);
+        add(yearField, position);
+        
+        position = makeConstraints(3,10,1,1,GridBagConstraints.LINE_START);
+        position.insets = new Insets(0,20,5,0);
+        add(new JLabel("Geyser"), position);
+        
+        position = makeConstraints(3,11,1,2,GridBagConstraints.LINE_START);
+        position.insets = new Insets(0,20,20,0);
+        geyserField = new JTextField(24);
+        add(geyserField, position);
+        
+        position = makeConstraints(5,0,1,1,GridBagConstraints.CENTER);
+        position.insets = new Insets(20,20,5,20);
+        add(new JLabel("Eruptions"), position);
+        
+        position = makeConstraints(5,1,1,1,GridBagConstraints.CENTER);
+        position.insets = new Insets(0,20,5,20);
+        lateButton = new JButton("Late Night Eruption");
+        lateButton.addActionListener(this);
+        add(lateButton, position);
+        
+        position = makeConstraints(5,2,1,1,GridBagConstraints.CENTER);
+        position.insets = new Insets(0,20,5,20);
+        onDateButton = new JButton("# on Date");
+        onDateButton.addActionListener(this);
+        add(onDateButton, position);
+        
+        position = makeConstraints(5,3,1,1,GridBagConstraints.CENTER);
+        position.insets = new Insets(0,20,5,20);
+        maxButton = new JButton("Max Eruptions in Year");
+        maxButton.addActionListener(this);
+        add(maxButton, position);
+        
+        position = makeConstraints(5,4,1,1,GridBagConstraints.CENTER);
+        position.insets = new Insets(0,20,20,20);
+        byNameButton = new JButton("By Name");
+        byNameButton.addActionListener(this);
+        add(byNameButton, position);
+        
+        position = makeConstraints(5,6,1,1,GridBagConstraints.CENTER);
+        position.insets = new Insets(0,20,5,20);
+        add(new JLabel("Geysers"), position);
+        
+        position = makeConstraints(5,7,1,1,GridBagConstraints.CENTER);
+        position.insets = new Insets(0,20,5,20);
+        mostActiveButton = new JButton("Most Active");
+        mostActiveButton.addActionListener(this);
+        add(mostActiveButton, position);
+        
+        position = makeConstraints(5,8,1,1,GridBagConstraints.CENTER);
+        position.insets = new Insets(0,20,5,20);
+        leastActiveButton = new JButton("Least Active");
+        leastActiveButton.addActionListener(this);
+        add(leastActiveButton, position);
+        
+        position = makeConstraints(5,9,1,1,GridBagConstraints.CENTER);
+        position.insets = new Insets(0,20,5,20);
+        geyserListButton = new JButton("Geyser List");
+        geyserListButton.addActionListener(this);
+        add(geyserListButton, position);
+          
 
         // set up File menus
         setupMenus();
@@ -105,8 +189,18 @@ public class GeyserGUI extends JFrame implements ActionListener{
     @param m list of eruptions
      *********************************************************************/
     private void displayEruptions(ArrayList <Eruption> m){
-
-        //FIX ME: complete this method as specified
+        resultsArea.setText("");
+        for (Eruption e : m) {
+            resultsArea.append(e.toString() + "\n");
+        }
+        resultsArea.append("Total Eruptions: " + m.size());
+    }
+        private void displayEruptions(String startMessage, ArrayList <Eruption> m){
+        resultsArea.setText(startMessage + "\n");
+        for (Eruption e : m) {
+            resultsArea.append(e.toString() + "\n");
+        }
+        resultsArea.append("Total Eruptions: " + m.size());
     }
 
     /*********************************************************************
@@ -115,7 +209,15 @@ public class GeyserGUI extends JFrame implements ActionListener{
     @param e the button or menu item that was selected
      *********************************************************************/
     public void actionPerformed(ActionEvent e){
-
+        /*
+         *      
+            private JButton mostActiveButton;
+            private JButton leastActiveButton;
+            private JTextField dayField;
+            private JTextField monthField;
+            private JTextField yearField;
+            private JTextField geyserField;
+         */
         Eruption item = null;
         
         // either open a file or warn the user
@@ -126,34 +228,73 @@ public class GeyserGUI extends JFrame implements ActionListener{
             resultsArea.setText(errorMessage);
             return;    
         } 
-
         // menu item - quit
         if (e.getSource() == quitItem){
             System.exit(1);
-        }
-        
-        // FIX ME: Count menu item - display number of eruptions and geysers   
+        }    
+        // Count menu item - display number of eruptions and geysers   
         if (e.getSource() == countItem){
-
+            resultsArea.setText("Number of all Eruptions:\n  " + db.getNumEruptions());
+            resultsArea.append("\nNumber of all Geysers:\n  " + db.getNumGeysers());
         }
         
-        // FIX ME: display late night eruption    
-
-        // FIX ME: display all geyser names  
-
-
-        // FIX ME: max eruptions day in a year (check for year) 
-
-
-        // FIX ME: list all eruptions for a geyser (check  for name)   
-
-
-
-
-        // FIX ME: display eruptions for a particular date
+        // display late night eruption    
+        if (e.getSource() == lateButton) {
+            item = db.getLateNightEruption();
+            resultsArea.setText("Latest Eruption:\n" + item.toString());
+        }
+        // display all geyser names  
+        if (e.getSource() == geyserListButton) {
+            resultsArea.setText("Geysers: \n");
+            for (Geyser g : db.getGeyserList()) {
+                resultsArea.append(g.getName() + "\n");
+            }
+        }
+        // max eruptions day in a year (check for year) 
+        if (e.getSource() == maxButton) {
+            if (yearField.getText().length() == 0) 
+                JOptionPane.showMessageDialog(this, "Provide a year");
+            else {
+                int year = Integer.parseInt(yearField.getText());
+                String max = db.findDayWithMostEruptions(year);
+                resultsArea.setText("Day with the most eruptions in " + year + ":\n" + max);
+            }
+        }
+        // list all eruptions for a geyser (check  for name)   
+        if (e.getSource() == byNameButton) {
+            String name = geyserField.getText();
+            if (name.length() == 0)
+                JOptionPane.showMessageDialog(this, "Provide a geyser name");
+            else
+                displayEruptions("All Eruptions for: " + name, db.getEruptions(name));
+        }
+        // display eruptions for a particular date
         // check for month, day and year
-
-
+        if (e.getSource() == onDateButton) {
+            if (monthField.getText().length() != 0 && 
+                dayField.getText().length() != 0 &&
+                yearField.getText().length() != 0) {
+                int m = Integer.parseInt(monthField.getText());
+                int d = Integer.parseInt(dayField.getText());
+                int y = Integer.parseInt(yearField.getText());
+                int total = db.getNumEruptions(m, d, y);
+                resultsArea.setText(String.format("Total Eruptions on %1$d/%2$d/%3$d: %4$d", m, d, y, total));
+            } else {
+                JOptionPane.showMessageDialog(this, "Provide Month, Date, and Year");
+            }
+        }
+        if (e.getSource() == mostActiveButton) {
+            resultsArea.setText("Most Active Geyser: \n");
+            for (Geyser g : db.findMostActiveGeyser()) {
+                resultsArea.append(g.getName() + ", " + g.getNumEruptions() + " Eruptions \n");
+            }
+        }
+        if (e.getSource() == leastActiveButton) {
+            resultsArea.setText("Least Active Geyser: \n");
+            for (Geyser g : db.findLeastActiveGeyser()) {
+                resultsArea.append(g.getName() + ", " + g.getNumEruptions() + " Eruption \n");
+            }
+        }
     }
 
     /*********************************************************************
@@ -166,8 +307,8 @@ public class GeyserGUI extends JFrame implements ActionListener{
         // did the user select a file?
         if (returnVal == JFileChooser.APPROVE_OPTION) {
             String filename = fc.getSelectedFile().getName();
-            // use the name of your lottery ticket variable 
-            // db.readGeyserData(filename);          
+            
+             db.readGeyserData(filename);          
         }
     }
 

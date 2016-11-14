@@ -17,6 +17,10 @@ public class GeyserDatabase
     public void readGeyserData(String filename) {
         //project spec called for a new ArrayList here, but unclear why 
         try {
+            if (eruptions.size() != 0) {
+                eruptions = new ArrayList<Eruption>();
+                geysers = new ArrayList<Geyser>();
+            }
             File f = new File(filename);
             Scanner sc = new Scanner(f);
             String text; 
@@ -147,20 +151,32 @@ public class GeyserDatabase
     public int getNumGeysers() {
         return geysers.size();
     }
-    public Geyser findMostActiveGeyser() {
+    public ArrayList<Geyser> findMostActiveGeyser() {
         Geyser maxG = geysers.get(0);
+        ArrayList<Geyser> maxGeysers = new ArrayList<Geyser>();
         for (Geyser g : geysers) {
-            if (g.getNumEruptions() > maxG.getNumEruptions())
+            if (g.getNumEruptions() > maxG.getNumEruptions()) {
                 maxG = g;
+                maxGeysers.clear();
+                maxGeysers.add(maxG);
+            } else if (g.getNumEruptions() == maxG.getNumEruptions()) {
+                maxGeysers.add(g);
+            }
         }
-        return maxG;
+        return maxGeysers;
     }
-    public Geyser findLeastActiveGeyser() {
+    public ArrayList<Geyser> findLeastActiveGeyser() {
         Geyser minG = geysers.get(0);
+        ArrayList<Geyser> minGeysers = new ArrayList<Geyser>();
         for (Geyser g : geysers) {
-            if (g.getNumEruptions() < minG.getNumEruptions())
+            if (g.getNumEruptions() < minG.getNumEruptions()) {
                 minG = g;
+                minGeysers.clear();
+                minGeysers.add(minG);
+            } else if (g.getNumEruptions() == minG.getNumEruptions()) {
+                minGeysers.add(g);
+            }
         }
-        return minG;
+        return minGeysers;
     }
 }
